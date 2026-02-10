@@ -39,10 +39,8 @@ function TaskList() {
   return (
     <div className="page-container">
       <header className="page-header">
-        <div>
-          <span className="header-badge">Study Dashboard</span>
-          <h1 className="header-title">勉強タスク管理</h1>
-        </div>
+        <span className="header-badge">Study Optimizer</span>
+        <h1 className="header-title">勉強タスク管理</h1>
       </header>
       <div className="grid grid-cols-1 gap-4 sm-grid-cols-2">
         {sortedTasks.map((task) => (
