@@ -48,4 +48,5 @@ html, body {
   height: 100%;
   overflow: hidden; /* 全体の揺れを禁止 */
   position: fixed;  /* iOSでのバウンスを物理的に止める */
+  touch-action: pan-x pan-y;
 }

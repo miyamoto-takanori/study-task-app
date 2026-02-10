@@ -53,8 +53,12 @@ export function AddTask() {
 
     if (!formData.categoryId) return alert("カテゴリを選択してください");
 
+    const selectedCategory = categories.find(c => c.id === parseInt(formData.categoryId));
+
     await db.tasks.add({
-      categoryId: parseInt(formData.categoryId),
+      categoryId: selectedCategory.id,
+      categoryName: selectedCategory.name, // 名前も持たせておくと表示が楽です
+      categoryColor: selectedCategory.color, // カラーもカテゴリから引用
       title: formData.title,
       subtitle: formData.subtitle,
       deadline: formData.deadline,
@@ -116,19 +120,19 @@ export function AddTask() {
           </div>
 
           {mode === 'auto' ? (
-            <div className="space-y-3">
-              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <input className="input-field" style={{ flex: 1 }} value={formData.itemPrefix} onChange={e => setFormData({...formData, itemPrefix: e.target.value})} placeholder="第" />
-                <span className="font-bold">[数]</span>
-                <input className="input-field" style={{ flex: 1 }} value={formData.itemSuffix} onChange={e => setFormData({...formData, itemSuffix: e.target.value})} placeholder="回" />
+            <div className="generator-container">
+              <div className="generator-grid">
+                <input className="input-field" style={{textAlign: 'center'}} value={formData.itemPrefix} onChange={e => setFormData({...formData, itemPrefix: e.target.value})} />
+                <div className="number-badge">数</div>
+                <input className="input-field" style={{textAlign: 'center'}} value={formData.itemSuffix} onChange={e => setFormData({...formData, itemSuffix: e.target.value})} />
               </div>
-              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <input className="input-field" type="number" value={formData.startNum} onChange={e => setFormData({...formData, startNum: parseInt(e.target.value)})} />
-                <span>〜</span>
-                <input className="input-field" type="number" value={formData.endNum} onChange={e => setFormData({...formData, endNum: parseInt(e.target.value)})} />
+              <div className="generator-grid">
+                <input className="input-field" type="number" style={{textAlign: 'center'}} value={formData.startNum} onChange={e => setFormData({...formData, startNum: parseInt(e.target.value)})} />
+                <span className="wave-separator">~</span>
+                <input className="input-field" type="number" style={{textAlign: 'center'}} value={formData.endNum} onChange={e => setFormData({...formData, endNum: parseInt(e.target.value)})} />
               </div>
             </div>
-          ) : (
+            ) : (
             <div className="space-y-2">
               {formData.manualItems.map((item, idx) => (
                 <input key={idx} className="input-field" style={{ padding: '0.75rem', fontSize: '1rem' }} placeholder={`アイテム ${idx + 1}`}
