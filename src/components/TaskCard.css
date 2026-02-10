@@ -22,8 +22,8 @@
 }
 
 .category-tag {
-  background-color: color-mix(in srgb, var(--theme-color), transparent 85%);
-  color: var(--theme-color);
+  background-color: var(--theme-color) !important;
+  color: white !important;
   @apply rounded-full px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider;
 }
 
@@ -43,7 +43,6 @@
   @apply h-full transition-all duration-500;
 }
 
-
 .progress-bar-fill:not(.bg-green-500) {
-  background-color: var(--theme-color);
+  background-color: var(--theme-color) !important;
 }
