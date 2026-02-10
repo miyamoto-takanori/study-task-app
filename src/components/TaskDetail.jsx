@@ -26,9 +26,10 @@ export function TaskDetail() {
   };
 
   const progress = Math.round((task.completedItems / task.totalItems) * 100);
+  const themeColor = task.color || '#3b82f6';
 
-  return (
-    <div className="detail-page animate-in slide-in-from-right duration-300">
+return (
+    <div className="detail-page" style={{ '--theme-color': themeColor }}>
       <div className="detail-header">
         <button onClick={() => navigate(-1)} className="back-button">
           <ChevronLeft size={24} />

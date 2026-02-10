@@ -2,8 +2,11 @@
   @apply relative overflow-hidden rounded-2xl bg-white p-4 shadow-sm border transition-all active:scale-[0.98];
 }
 
+
 .task-card--active {
-  @apply border-gray-100 shadow-md shadow-gray-200/50;
+  /* 変数を使ってボーダーの色を指定 */
+  border-color: color-mix(in srgb, var(--theme-color), transparent 80%);
+  @apply shadow-md shadow-gray-200/50;
 }
 
 .task-card--completed {
@@ -19,7 +22,9 @@
 }
 
 .category-tag {
-  @apply rounded-full bg-blue-100 px-3 py-0.5 text-[10px] font-bold text-blue-600 uppercase tracking-wider;
+  background-color: color-mix(in srgb, var(--theme-color), transparent 85%);
+  color: var(--theme-color);
+  @apply rounded-full px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider;
 }
 
 .card-title {
@@ -36,4 +41,9 @@
 
 .progress-bar-fill {
   @apply h-full transition-all duration-500;
+}
+
+
+.progress-bar-fill:not(.bg-green-500) {
+  background-color: var(--theme-color);
 }

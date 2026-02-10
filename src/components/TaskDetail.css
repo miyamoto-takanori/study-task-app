@@ -1,8 +1,10 @@
 .detail-header {
+  border-bottom-color: color-mix(in srgb, var(--theme-color), transparent 70%);
   @apply sticky top-0 z-40 bg-white/80 backdrop-blur-md p-4 flex items-center gap-4 border-b;
 }
 
 .back-button {
+  color: var(--theme-color);
   @apply p-1 active:bg-gray-100 rounded-full transition-colors;
 }
 
@@ -15,7 +17,8 @@
 }
 
 .progress-label {
-  @apply flex justify-between text-sm mb-2 font-bold text-blue-600;
+  color: var(--theme-color);
+  @apply flex justify-between text-sm mb-2 font-bold;
 }
 
 .progress-track {
@@ -23,7 +26,8 @@
 }
 
 .progress-fill {
-  @apply h-full bg-blue-500 transition-all duration-500;
+  background-color: var(--theme-color);
+  @apply h-full transition-all duration-500;
 }
 
 .item-list {
@@ -39,7 +43,9 @@
 }
 
 .check-box--active {
-  @apply bg-blue-500 border-blue-500 shadow-sm;
+  background-color: var(--theme-color);
+  border-color: var(--theme-color);
+  @apply shadow-sm;
 }
 
 .item-text {
