@@ -49,7 +49,7 @@ function Layout({ children }) {
   };
 
   const isDetailPage = location.pathname.startsWith('/task/');
-  
+
   return (
     <div className="app-layout" style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
     {!isDetailPage && (
@@ -65,11 +65,12 @@ function Layout({ children }) {
           height: '100%', 
           overflowY: 'auto', 
           WebkitOverflowScrolling: 'touch',
-          overscrollBehaviorY: 'contain'
+          overscrollBehaviorY: 'contain',
+          position: 'relative'
         }}
       >
         {/* ヘッダーの初期高さ分だけ内側に余白を持たせる */}
-        <div style={{ paddingTop: '85px' }}>
+        <div style={{ paddingTop: isDetailPage ? '0' : '85px' }}>
           {children}
         </div>
       </main>

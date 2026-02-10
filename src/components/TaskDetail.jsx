@@ -22,7 +22,7 @@ export function TaskDetail() {
       if (a.done === b.done) return a.id - b.id; // 同じ状態ならID順
       return a.done ? 1 : -1; // 未完了が先、完了が後
     });
-  }, [task?.items]);
+  }, [task]);
 
   if (!task) return <div className="loading-state">読み込み中...</div>;
 

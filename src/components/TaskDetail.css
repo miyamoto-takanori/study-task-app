@@ -1,14 +1,16 @@
 .detail-page {
   background-color: #f8fafc;
-  min-height: 100dvh;
+  min-height: 100%;
 }
 
 /* ヘッダーを固定し、App.jsxのヘッダーとの干渉を防ぐ */
 .detail-header-fixed {
   position: sticky;
   top: 0;
-  z-index: 200; /* Appレイアウトより高く */
-  background: rgba(255, 255, 255, 0.9);
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: rgba(255, 255, 255, 0.95); /* 不透明度を少し上げる */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding: 0.75rem 1rem;
@@ -49,23 +51,25 @@
 
 /* コンテンツエリア */
 .detail-content {
-  padding: 1rem;
-  padding-bottom: 6rem;
+  padding: 0.75rem 1rem 6rem 1rem; /* 上のパディングを 1rem から 0.75rem に少し詰める */
 }
 
 .detail-info-card {
   background: white;
   border-radius: 1.25rem;
-  padding: 1.25rem;
-  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem; /* 上下のパディングを 1.25rem から 1rem に調整 */
+  margin-bottom: 1rem;   /* 下の余白を 1.5rem から 1rem に */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
+/* サブタイトル上の不要なマージンを消す */
 .detail-subtitle {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #475569;
-  margin-bottom: 1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #334155;
+  margin-top: 0; /* 強制的に 0 に */
+  margin-bottom: 0.75rem; /* 下の間隔も少しタイトに */
+  line-height: 1.4;
 }
 
 .progress-label {
