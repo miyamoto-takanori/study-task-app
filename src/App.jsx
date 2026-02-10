@@ -38,8 +38,8 @@ function Layout({ children }) {
   };
 
   const headerStyle = {
-    transform: `translateY(-${headerOffset}px)`,
-    opacity: 1 - (headerOffset / 90),
+    transform: `translateY(-${isDetailPage ? 0 : headerOffset}px)`,
+    opacity: isDetailPage ? 1 : 1 - (headerOffset / 90),
     position: 'absolute', // 固定ではなく絶対配置に
     top: 0,
     left: 0,
@@ -65,7 +65,7 @@ function Layout({ children }) {
           height: '100%', 
           overflowY: 'auto', 
           WebkitOverflowScrolling: 'touch',
-          overscrollBehaviorY: 'contain',
+          overscrollBehaviorY: 'none',
           position: 'relative'
         }}
       >

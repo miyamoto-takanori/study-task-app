@@ -5,11 +5,11 @@
 
 /* ヘッダーを固定し、App.jsxのヘッダーとの干渉を防ぐ */
 .detail-header-fixed {
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 200;
+  z-index: 999;
   background: rgba(255, 255, 255, 0.95); /* 不透明度を少し上げる */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -51,7 +51,7 @@
 
 /* コンテンツエリア */
 .detail-content {
-  padding: 0.75rem 1rem 6rem 1rem; /* 上のパディングを 1rem から 0.75rem に少し詰める */
+  padding: 60px 1rem 6rem 1rem; 
 }
 
 .detail-info-card {
