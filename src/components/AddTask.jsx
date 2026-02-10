@@ -37,14 +37,15 @@ export function AddTask() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    const catId = parseInt(formData.categoryId);
+
     // 1. カテゴリのバリデーション
-    if (!formData.categoryId) {
+    if (!catId) {
         alert("カテゴリを選択してください");
         return;
     }
 
-    // 2. IDから対応するカテゴリを検索（これが「紐付け」になります）
-    const selectedCategory = categories.find(c => c.id === parseInt(formData.categoryId));
+    const selectedCategory = categories?.find(c => c.id === catId);
 
     if (!selectedCategory) {
         alert("カテゴリ情報の取得に失敗しました");
@@ -111,7 +112,7 @@ export function AddTask() {
 
         <div className="form-section">
           <label className="form-label">サブタイトル</label>
-          <input className="input-field" type="text" placeholder="例: 微分積分"
+          <input className="input-field" type="text" required placeholder="例: 微分積分"
             value={formData.subtitle} onChange={e => setFormData({...formData, subtitle: e.target.value})} />
         </div>
 
