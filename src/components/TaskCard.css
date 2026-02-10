@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 .task-card {
   @apply relative overflow-hidden rounded-2xl bg-white p-4 shadow-sm border transition-all active:scale-[0.98];
 }

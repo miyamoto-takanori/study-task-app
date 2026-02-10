@@ -4,6 +4,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
 import { CheckCircle2, ChevronLeft } from 'lucide-react';
 import clsx from 'clsx';
+import './TaskDetail.css';
 
 export function TaskDetail() {
   const { id } = useParams();

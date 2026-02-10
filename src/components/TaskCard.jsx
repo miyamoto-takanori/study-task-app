@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import './TaskCard.css';
 
 export function TaskCard({ task }) {
   const progress = Math.round((task.completedItems / task.totalItems) * 100);

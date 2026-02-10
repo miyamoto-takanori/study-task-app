@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 .detail-header {
   border-bottom-color: color-mix(in srgb, var(--theme-color), transparent 70%);
   @apply sticky top-0 z-40 bg-white/80 backdrop-blur-md p-4 flex items-center gap-4 border-b;
