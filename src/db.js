@@ -2,7 +2,7 @@ import Dexie from 'dexie';
 
 export const db = new Dexie('StudyAppDB');
 
-db.version(1).stores({
+db.version(11).stores({
   tasks: '++id, category, title, deadline, priority, isCompleted',
   logs: '++id, taskId, date'
 });
