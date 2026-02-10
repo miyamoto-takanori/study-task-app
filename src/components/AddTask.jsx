@@ -36,40 +36,55 @@ export function AddTask() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let finalItems = [];
+    
+    // 1. カテゴリのバリデーション
+    if (!formData.categoryId) {
+        alert("カテゴリを選択してください");
+        return;
+    }
 
+    // 2. IDから対応するカテゴリを検索（これが「紐付け」になります）
+    const selectedCategory = categories.find(c => c.id === parseInt(formData.categoryId));
+
+    if (!selectedCategory) {
+        alert("カテゴリ情報の取得に失敗しました");
+        return;
+    }
+
+    // 3. アイテム生成ロジック
+    let finalItems = [];
     if (mode === 'auto') {
-      const count = formData.endNum - formData.startNum + 1;
-      finalItems = Array.from({ length: count }, (_, i) => ({
+        const count = formData.endNum - formData.startNum + 1;
+        finalItems = Array.from({ length: count }, (_, i) => ({
         id: i + 1,
         label: `${formData.itemPrefix}${formData.startNum + i}${formData.itemSuffix}`,
         done: false
-      }));
+        }));
     } else {
-      finalItems = formData.manualItems
+        finalItems = formData.manualItems
         .filter(label => label.trim() !== '')
         .map((label, i) => ({ id: i + 1, label, done: false }));
     }
 
-    if (!formData.categoryId) return alert("カテゴリを選択してください");
-
-    const selectedCategory = categories.find(c => c.id === parseInt(formData.categoryId));
-
+    // 4. データベースへ登録
+    // categoryIdだけでなく、その時の名前と色も一緒に保存（非正規化）することで、
+    // ダッシュボード等での表示を高速化・確実にします。
     await db.tasks.add({
-      categoryId: selectedCategory.id,
-      categoryName: selectedCategory.name, // 名前も持たせておくと表示が楽です
-      categoryColor: selectedCategory.color, // カラーもカテゴリから引用
-      title: formData.title,
-      subtitle: formData.subtitle,
-      deadline: formData.deadline,
-      priority: formData.priority,
-      totalItems: finalItems.length,
-      completedItems: 0,
-      items: finalItems,
-      isCompleted: false
+        categoryId: selectedCategory.id,
+        categoryName: selectedCategory.name,
+        categoryColor: selectedCategory.color,
+        title: formData.title,
+        subtitle: formData.subtitle,
+        deadline: formData.deadline,
+        priority: parseInt(formData.priority),
+        totalItems: finalItems.length,
+        completedItems: 0,
+        items: finalItems,
+        isCompleted: false
     });
+    
     navigate('/');
-  };
+    };
 
   return (
     <div className="page-container">
