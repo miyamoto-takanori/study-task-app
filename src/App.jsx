@@ -12,6 +12,10 @@ function Layout({ children }) {
   const location = useLocation();
   return (
     <div className="app-layout" style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
+      <header className="page-header">
+        <span className="header-badge">Study Optimizer</span>
+        <h1 className="header-title">勉強タスク管理</h1>
+      </header>
       {/* children（TaskListなど）自体にヘッダーが含まれるため、mainをスクロール可能にする */}
       <main style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch', overscrollBehaviorY: 'contain' }}>
         {children}
@@ -41,10 +45,6 @@ function TaskList() {
 
   return (
     <div className="page-container">
-      <header className="page-header">
-        <span className="header-badge">Study Optimizer</span>
-        <h1 className="header-title">勉強タスク管理</h1>
-      </header>
       <div className="grid grid-cols-1 gap-4 sm-grid-cols-2">
         {sortedTasks.map((task) => (
           <Link key={task.id} to={`/task/${task.id}`}>
