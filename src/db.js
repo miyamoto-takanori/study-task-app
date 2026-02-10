@@ -12,9 +12,60 @@ export const seedData = async () => {
   if (count === 0) {
     await db.tasks.bulkAdd([
       {
-        category: '院試対策',
+        category: '院試対策1',
         title: '入門コンピュータ科学',
         subtitle: '第1章 練習問題',
+        color: '#3b82f6', // 青 (blue-500)
+        totalItems: 53,
+        completedItems: 0,
+        // 53個の問題リストを自動生成
+        items: Array.from({ length: 53 }, (_, i) => ({
+          id: i + 1,
+          label: `問題 ${i + 1}`,
+          done: false
+        })),
+        deadline: '2026-03-01',
+        priority: 5,
+        isCompleted: false
+      },
+      {
+        category: '院試対策2',
+        title: '入門コンピュータ科学',
+        subtitle: '第2章 練習問題',
+        color: '#3b82f6', // 青 (blue-500)
+        totalItems: 53,
+        completedItems: 0,
+        // 53個の問題リストを自動生成
+        items: Array.from({ length: 53 }, (_, i) => ({
+          id: i + 1,
+          label: `問題 ${i + 1}`,
+          done: false
+        })),
+        deadline: '2026-03-01',
+        priority: 5,
+        isCompleted: false
+      },
+      {
+        category: '院試対策3',
+        title: '入門コンピュータ科学',
+        subtitle: '第3章 練習問題',
+        color: '#3b82f6', // 青 (blue-500)
+        totalItems: 53,
+        completedItems: 0,
+        // 53個の問題リストを自動生成
+        items: Array.from({ length: 53 }, (_, i) => ({
+          id: i + 1,
+          label: `問題 ${i + 1}`,
+          done: false
+        })),
+        deadline: '2026-03-01',
+        priority: 5,
+        isCompleted: false
+      },
+      {
+        category: '院試対策4',
+        title: '入門コンピュータ科学',
+        subtitle: '第4章 練習問題',
         color: '#3b82f6', // 青 (blue-500)
         totalItems: 53,
         completedItems: 0,
