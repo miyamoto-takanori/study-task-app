@@ -10,9 +10,24 @@ import './App.css';
 
 function Layout({ children }) {
   const location = useLocation();
+  const [showHeader, setShowHeader] = React.useState(true);
+  const [lastScrollY, setLastScrollY] = React.useState(0);
+
+  const handleScroll = (e) => {
+    const currentScrollY = e.currentTarget.scrollTop;
+    
+    // 50px以上スクロールした時に判定（誤作動防止）
+    if (Math.abs(currentScrollY - lastScrollY) > 10) {
+      // 下にスクロール ＝ ヘッダーを隠す
+      // 上にスクロール ＝ ヘッダーを出す
+      setShowHeader(currentScrollY < lastScrollY || currentScrollY < 50);
+      setLastScrollY(currentScrollY);
+    }
+  };
+
   return (
     <div className="app-layout" style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
-      <header className="page-header">
+      <header className={`page-header ${showHeader ? '' : 'page-header--hidden'}`}>
         <span className="header-badge">Study Optimizer</span>
         <h1 className="header-title">勉強タスク管理</h1>
       </header>

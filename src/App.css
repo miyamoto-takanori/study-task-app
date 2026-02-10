@@ -89,6 +89,17 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  transition: transform 0.3s ease-in-out, opacity 0.3s;
+  transform: translateY(0);
+}
+
+/* 隠れた状態：上にスライドして消える */
+.page-header--hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  /* 消えている間、高さを取らないように固定（絶対配置にしないための工夫） */
+  position: absolute; 
+  width: 100%;
 }
 
 .header-title {
