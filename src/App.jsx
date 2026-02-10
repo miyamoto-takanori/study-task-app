@@ -10,28 +10,49 @@ import './App.css';
 
 function Layout({ children }) {
   const location = useLocation();
-  const [showHeader, setShowHeader] = React.useState(true);
+  const [headerOffset, setHeaderOffset] = React.useState(0); // 0(表示) 〜 100(隠れる)
   const [lastScrollY, setLastScrollY] = React.useState(0);
 
   const handleScroll = (e) => {
     const currentScrollY = e.currentTarget.scrollTop;
-    
-    // 50px以上スクロールした時に判定（誤作動防止）
-    if (Math.abs(currentScrollY - lastScrollY) > 10) {
-      // 下にスクロール ＝ ヘッダーを隠す
-      // 上にスクロール ＝ ヘッダーを出す
-      setShowHeader(currentScrollY < lastScrollY || currentScrollY < 50);
-      setLastScrollY(currentScrollY);
+    const scrollHeight = e.currentTarget.scrollHeight;
+    const clientHeight = e.currentTarget.clientHeight;
+
+    // 下端のバウンド（オーバースクロール）での振動を防止
+    if (currentScrollY + clientHeight >= scrollHeight - 10) return;
+    // 上端のバウンド（オーバースクロール）での振動を防止
+    if (currentScrollY <= 0) {
+      setHeaderOffset(0);
+      setLastScrollY(0);
+      return;
     }
+
+    const diff = currentScrollY - lastScrollY;
+    
+    // スクロールした分だけヘッダーの位置を動かす
+    // 0(完全に表示) から 80(ヘッダーの高さ分) の間でクランプ
+    setHeaderOffset((prev) => {
+      const nextOffset = prev + diff;
+      return Math.min(Math.max(nextOffset, 0), 80);
+    });
+
+    setLastScrollY(currentScrollY);
+  };
+
+  // オフセットに基づいてスタイルを計算
+  const headerStyle = {
+    transform: `translateY(-${headerOffset}px)`,
+    opacity: 1 - headerOffset / 80,
+    transition: 'none' // スワイプに同期させるため、移動中のアニメーションはオフ
   };
 
   return (
     <div className="app-layout" style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
-      <header className={`page-header ${showHeader ? '' : 'page-header--hidden'}`}>
+      <header className="page-header" style={headerStyle}>
         <span className="header-badge">Study Optimizer</span>
         <h1 className="header-title">勉強タスク管理</h1>
       </header>
-      {/* children（TaskListなど）自体にヘッダーが含まれるため、mainをスクロール可能にする */}
+
       <main 
         onScroll={handleScroll} 
         style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch', overscrollBehaviorY: 'contain' }}
