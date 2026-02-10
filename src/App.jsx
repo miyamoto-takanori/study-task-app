@@ -48,12 +48,16 @@ function Layout({ children }) {
     transition: 'none'
   };
 
+  const isDetailPage = location.pathname.startsWith('/task/');
+  
   return (
     <div className="app-layout" style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
+    {!isDetailPage && (
       <header className="page-header" style={headerStyle}>
         <span className="header-badge">Study Optimizer</span>
         <h1 className="header-title">勉強タスク管理</h1>
       </header>
+    )}
 
       <main 
         onScroll={handleScroll} 
