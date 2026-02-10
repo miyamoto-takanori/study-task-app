@@ -1,0 +1,39 @@
+.task-card {
+  @apply relative overflow-hidden rounded-2xl bg-white p-4 shadow-sm border transition-all active:scale-[0.98];
+}
+
+.task-card--active {
+  @apply border-gray-100 shadow-md shadow-gray-200/50;
+}
+
+.task-card--completed {
+  @apply opacity-60 border-gray-200 bg-gray-50;
+}
+
+.stamp-container {
+  @apply absolute inset-0 z-10 flex items-center justify-center pointer-events-none;
+}
+
+.stamp-text {
+  @apply -rotate-12 border-[3px] border-red-500 px-3 py-0.5 text-xl font-black text-red-500 opacity-70 uppercase tracking-widest;
+}
+
+.category-tag {
+  @apply rounded-full bg-blue-100 px-3 py-0.5 text-[10px] font-bold text-blue-600 uppercase tracking-wider;
+}
+
+.card-title {
+  @apply text-lg font-bold text-gray-800 leading-tight mb-1;
+}
+
+.progress-info {
+  @apply flex justify-between text-[10px] font-bold text-gray-500 uppercase;
+}
+
+.progress-bar-bg {
+  @apply h-1.5 w-full overflow-hidden rounded-full bg-gray-100;
+}
+
+.progress-bar-fill {
+  @apply h-full transition-all duration-500;
+}

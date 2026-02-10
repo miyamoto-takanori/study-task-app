@@ -1,0 +1,55 @@
+.detail-header {
+  @apply sticky top-0 z-40 bg-white/80 backdrop-blur-md p-4 flex items-center gap-4 border-b;
+}
+
+.back-button {
+  @apply p-1 active:bg-gray-100 rounded-full transition-colors;
+}
+
+.detail-title {
+  @apply text-lg font-bold truncate;
+}
+
+.detail-progress-section {
+  @apply p-4 bg-white border-b;
+}
+
+.progress-label {
+  @apply flex justify-between text-sm mb-2 font-bold text-blue-600;
+}
+
+.progress-track {
+  @apply h-2 w-full rounded-full bg-gray-100 overflow-hidden;
+}
+
+.progress-fill {
+  @apply h-full bg-blue-500 transition-all duration-500;
+}
+
+.item-list {
+  @apply divide-y divide-gray-100;
+}
+
+.item-row {
+  @apply flex items-center gap-4 p-4 bg-white active:bg-gray-50 transition-colors cursor-pointer;
+}
+
+.check-box {
+  @apply w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all shrink-0 border-gray-300;
+}
+
+.check-box--active {
+  @apply bg-blue-500 border-blue-500 shadow-sm;
+}
+
+.item-text {
+  @apply text-base transition-all text-gray-700;
+}
+
+.item-text--done {
+  @apply text-gray-400 line-through;
+}
+
+.loading-state {
+  @apply p-4 text-center text-gray-500;
+}
