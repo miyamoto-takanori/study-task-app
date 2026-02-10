@@ -2,9 +2,10 @@ import React from 'react';
 import clsx from 'clsx';
 import './TaskCard.css';
 
-export function TaskCard({ task }) {
+export function TaskCard({ task, category }) {
   const progress = Math.round((task.completedItems / task.totalItems) * 100);
-  const themeColor = task.color || '#3b82f6';
+  const themeColor = category?.color || '#3b82f6';
+  const categoryName = category?.name || '未分類';
 
   // 期限が近いか判定（1週間以内）
   const isUrgent = React.useMemo(() => {
@@ -27,7 +28,7 @@ export function TaskCard({ task }) {
         </div>
       )}
       <div className="card-header">
-        <span className="category-tag">{task.category}</span>
+        <span className="category-tag">{categoryName}</span>
         <span className={clsx("deadline-text", isUrgent && "deadline-text--urgent")}>
           {task.deadline}
         </span>
