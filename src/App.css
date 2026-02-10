@@ -1,3 +1,5 @@
+@reference "../index.css";
+
 /* src/App.css */
 .app-layout {
   @apply min-h-screen bg-gray-50 pb-20;

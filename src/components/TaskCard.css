@@ -1,3 +1,5 @@
+@reference "../index.css";
+
 .task-card {
   @apply relative overflow-hidden rounded-2xl bg-white p-4 shadow-sm border transition-all active:scale-[0.98];
 }
@@ -22,8 +24,8 @@
 }
 
 .category-tag {
-  background-color: var(--theme-color) !important;
-  color: white !important;
+  background-color: color-mix(in srgb, var(--theme-color), transparent 85%);
+  color: var(--theme-color);
   @apply rounded-full px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider;
 }
 
@@ -43,6 +45,7 @@
   @apply h-full transition-all duration-500;
 }
 
+
 .progress-bar-fill:not(.bg-green-500) {
-  background-color: var(--theme-color) !important;
+  background-color: var(--theme-color);
 }
