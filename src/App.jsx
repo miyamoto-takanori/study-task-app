@@ -89,9 +89,11 @@ function Layout({ children }) {
 
 function TaskList() {
   const tasks = useLiveQuery(() => db.tasks.toArray());
+  const categories = useLiveQuery(() => db.categories.toArray());
   useEffect(() => { seedData(); }, []);
 
-  if (!tasks) return null;
+  if (!tasks || !categories) return null;
+  
   const sortedTasks = [...tasks].sort((a, b) => 
     (a.isCompleted === b.isCompleted) ? b.priority - a.priority : (a.isCompleted ? 1 : -1)
   );
@@ -99,11 +101,15 @@ function TaskList() {
   return (
     <div className="page-container">
       <div className="grid grid-cols-1 gap-4 sm-grid-cols-2">
-        {sortedTasks.map((task) => (
+        {sortedTasks.map((task) => {
+          const category = categories.find(c => c.id === task.categoryId);
+          
+          return (
           <Link key={task.id} to={`/task/${task.id}`}>
-            <TaskCard task={task} />
+            <TaskCard task={task} category={category} />
           </Link>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
