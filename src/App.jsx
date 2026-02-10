@@ -37,6 +37,8 @@ function Layout({ children }) {
     setLastScrollY(currentScrollY);
   };
 
+  const isDetailPage = location.pathname.startsWith('/task/');
+
   const headerStyle = {
     transform: `translateY(-${isDetailPage ? 0 : headerOffset}px)`,
     opacity: isDetailPage ? 1 : 1 - (headerOffset / 90),
@@ -47,8 +49,6 @@ function Layout({ children }) {
     zIndex: 100,
     transition: 'none'
   };
-
-  const isDetailPage = location.pathname.startsWith('/task/');
 
   return (
     <div className="app-layout" style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
