@@ -149,7 +149,7 @@ export function AddTask() {
               </div>
             </div>
             ) : (
-            <div className="space-y-2">
+            <div className="manual-items-container">
               {formData.manualItems.map((item, idx) => (
                 <input key={idx} className="input-field" style={{ padding: '0.75rem', fontSize: '1rem' }} placeholder={`アイテム ${idx + 1}`}
                   value={item} onChange={e => handleManualItemChange(idx, e.target.value)} />
