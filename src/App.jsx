@@ -10,7 +10,7 @@ import './App.css';
 
 function Layout({ children }) {
   const location = useLocation();
-  const [headerOffset, setHeaderOffset] = React.useState(0); // 0(表示) 〜 100(隠れる)
+  const [headerOffset, setHeaderOffset] = React.useState(0);
   const [lastScrollY, setLastScrollY] = React.useState(0);
 
   const handleScroll = (e) => {
@@ -18,32 +18,34 @@ function Layout({ children }) {
     const scrollHeight = e.currentTarget.scrollHeight;
     const clientHeight = e.currentTarget.clientHeight;
 
-    // 下端のバウンド（オーバースクロール）での振動を防止
-    if (currentScrollY + clientHeight >= scrollHeight - 10) return;
-    // 上端のバウンド（オーバースクロール）での振動を防止
+    // バウンド時のガード
     if (currentScrollY <= 0) {
       setHeaderOffset(0);
       setLastScrollY(0);
       return;
     }
+    if (currentScrollY + clientHeight >= scrollHeight - 5) return;
 
     const diff = currentScrollY - lastScrollY;
     
-    // スクロールした分だけヘッダーの位置を動かす
-    // 0(完全に表示) から 80(ヘッダーの高さ分) の間でクランプ
+    // ヘッダーの高さ（約80px）に合わせて隠す量を調整
     setHeaderOffset((prev) => {
       const nextOffset = prev + diff;
-      return Math.min(Math.max(nextOffset, 0), 80);
+      return Math.min(Math.max(nextOffset, 0), 90); 
     });
 
     setLastScrollY(currentScrollY);
   };
 
-  // オフセットに基づいてスタイルを計算
   const headerStyle = {
     transform: `translateY(-${headerOffset}px)`,
-    opacity: 1 - headerOffset / 80,
-    transition: 'none' // スワイプに同期させるため、移動中のアニメーションはオフ
+    opacity: 1 - (headerOffset / 90),
+    position: 'absolute', // 固定ではなく絶対配置に
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 100,
+    transition: 'none'
   };
 
   return (
@@ -53,11 +55,20 @@ function Layout({ children }) {
         <h1 className="header-title">勉強タスク管理</h1>
       </header>
 
+      {/* mainを画面いっぱいに広げる */}
       <main 
         onScroll={handleScroll} 
-        style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch', overscrollBehaviorY: 'contain' }}
+        style={{ 
+          height: '100%', 
+          overflowY: 'auto', 
+          WebkitOverflowScrolling: 'touch',
+          overscrollBehaviorY: 'contain'
+        }}
       >
-        {children}
+        {/* ヘッダーの初期高さ分だけ内側に余白を持たせる */}
+        <div style={{ paddingTop: '85px' }}>
+          {children}
+        </div>
       </main>
       <nav className="bottom-nav">
         <Link to="/" className={`nav-item ${location.pathname === '/' ? 'nav-item--active' : ''}`}>

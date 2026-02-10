@@ -7,6 +7,7 @@
   flex-direction: column;
   overflow: hidden;
   padding-bottom: 0; /* paddingをメイン側に移すため0に */
+  background-color: #f9fafb;
 }
 
 /* 下部ナビゲーション */
@@ -81,7 +82,7 @@
   top: 0;
   z-index: 100;
   /* すりガラス効果 */
-  background-color: rgba(249, 250, 251, 0.8);
+  background-color: rgba(249, 250, 251, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding: 1.25rem 1rem;
