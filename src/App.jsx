@@ -11,8 +11,11 @@ import './App.css';
 function Layout({ children }) {
   const location = useLocation();
   return (
-    <div className="app-layout">
-      {children}
+    <div className="app-layout" style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
+      {/* children（TaskListなど）自体にヘッダーが含まれるため、mainをスクロール可能にする */}
+      <main style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
+        {children}
+      </main>
       <nav className="bottom-nav">
         <Link to="/" className={`nav-item ${location.pathname === '/' ? 'nav-item--active' : ''}`}>
           <LayoutDashboard size={24} strokeWidth={2.5} />

@@ -9,7 +9,10 @@
   padding: 1rem;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   border: 1px solid #e5e7eb;
-  transition: all 0.2s;
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+  /* カード内のテキスト選択も念のため個別に禁止 */
+  -webkit-user-select: none;
+  user-select: none;
   text-decoration: none;
   display: block;
   margin-bottom: 1rem;
@@ -17,6 +20,7 @@
 
 .task-card:active {
   transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* 進行中（アクティブ）状態 */
