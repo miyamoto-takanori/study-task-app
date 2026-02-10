@@ -13,7 +13,7 @@ function Layout({ children }) {
   return (
     <div className="app-layout" style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
       {/* children（TaskListなど）自体にヘッダーが含まれるため、mainをスクロール可能にする */}
-      <main style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
+      <main style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch', overscrollBehaviorY: 'contain' }}>
         {children}
       </main>
       <nav className="bottom-nav">

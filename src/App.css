@@ -1,10 +1,12 @@
 /* src/App.css */
 
-/* レイアウト全体 */
+/* --- レイアウト構造の修正 --- */
 .app-layout {
-  min-height: 100vh;
-  background-color: #f9fafb; /* bg-gray-50 */
-  padding-bottom: calc(7rem + env(safe-area-inset-bottom));
+  height: 100dvh; /* min-heightからheightに変更 */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: 0; /* paddingをメイン側に移すため0に */
 }
 
 /* 下部ナビゲーション */
@@ -17,9 +19,9 @@
   height: 4rem;
   /* 角を丸めて浮いたデザインに */
   border-radius: 1.5rem;
-  background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(15px) saturate(180%);
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -39,7 +41,7 @@
   gap: 2px;
   color: #9ca3af;
   flex: 1;
-  -webkit-touch-callout: none;
+  -webkit-touch-callout: none !important;
 }
 
 .nav-item--active {
@@ -60,6 +62,7 @@
 /* ページコンテナ */
 .page-container {
   padding: 1rem; /* p-4 */
+  padding-bottom: 10rem;
   max-width: 800px;
   margin: 0 auto;
   /* Tailwindの標準アニメーションを再現 */
@@ -73,6 +76,7 @@
 
 /* ページヘッダー */
 .page-header {
+  flex-shrink: 0;
   position: relative;
   top: 0;
   z-index: 100;
