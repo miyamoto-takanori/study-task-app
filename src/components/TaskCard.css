@@ -1,51 +1,137 @@
-@import "tailwindcss";
+/* src/components/TaskCard.css */
 
+/* カード本体 */
 .task-card {
-  @apply relative overflow-hidden rounded-2xl bg-white p-4 shadow-sm border transition-all active:scale-[0.98];
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem; /* 16px */
+  background-color: #ffffff;
+  padding: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 1rem;
 }
 
+.task-card:active {
+  transform: scale(0.98);
+}
 
+/* 進行中（アクティブ）状態 */
 .task-card--active {
-  /* 変数を使ってボーダーの色を指定 */
-  border-color: color-mix(in srgb, var(--theme-color), transparent 80%);
-  @apply shadow-md shadow-gray-200/50;
+  border-color: var(--theme-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+/* 完了状態 */
 .task-card--completed {
-  @apply opacity-60 border-gray-200 bg-gray-50;
+  opacity: 0.6;
+  border-color: #e5e7eb;
+  background-color: #f9fafb;
 }
 
+/* カードヘッダー（カテゴリと期限） */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+/* カテゴリタグ */
+.category-tag {
+  background-color: var(--theme-color);
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 0.125rem 0.75rem;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+
+/* 期限テキスト */
+.deadline-text {
+  font-size: 11px;
+  color: #9ca3af; /* text-gray-400 */
+  font-weight: 500;
+}
+
+/* タイトル */
+.card-title {
+  font-size: 1.125rem; /* 18px */
+  font-weight: 700;
+  color: #1f2937; /* text-gray-800 */
+  line-height: 1.25;
+  margin: 0 0 0.25rem 0;
+}
+
+/* サブタイトル */
+.card-subtitle {
+  font-size: 0.875rem; /* 14px */
+  color: #6b7280; /* text-gray-500 */
+  margin: 0 0 1rem 0;
+}
+
+/* 進捗セクション全体 */
+.progress-container {
+  margin-top: 1rem;
+}
+
+/* 進捗テキスト情報 */
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  margin-bottom: 0.375rem;
+}
+
+/* 進捗バーの背景 */
+.progress-bar-bg {
+  height: 0.375rem; /* 6px */
+  width: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  background-color: #f3f4f6; /* bg-gray-100 */
+}
+
+/* 進捗バーの塗り */
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--theme-color);
+  transition: width 0.5s ease-out;
+}
+
+/* 完了時の緑色（!importantでテーマカラーより優先） */
+.progress-bar-fill.bg-green-500 {
+  background-color: #10b981 !important;
+}
+
+/* 完了スタンプ */
 .stamp-container {
-  @apply absolute inset-0 z-10 flex items-center justify-center pointer-events-none;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
 }
 
 .stamp-text {
-  @apply -rotate-12 border-[3px] border-red-500 px-3 py-0.5 text-xl font-black text-red-500 opacity-70 uppercase tracking-widest;
-}
-
-.category-tag {
-  background-color: color-mix(in srgb, var(--theme-color), transparent 85%);
-  color: var(--theme-color);
-  @apply rounded-full px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider;
-}
-
-.card-title {
-  @apply text-lg font-bold text-gray-800 leading-tight mb-1;
-}
-
-.progress-info {
-  @apply flex justify-between text-[10px] font-bold text-gray-500 uppercase;
-}
-
-.progress-bar-bg {
-  @apply h-1.5 w-full overflow-hidden rounded-full bg-gray-100;
-}
-
-.progress-bar-fill {
-  @apply h-full transition-all duration-500;
-}
-
-
-.progress-bar-fill:not(.bg-green-500) {
-  background-color: var(--theme-color);
+  transform: rotate(-12deg);
+  border: 3px solid #ef4444;
+  padding: 0.125rem 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #ef4444;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }

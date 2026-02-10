@@ -40,7 +40,7 @@ function TaskList() {
       <header className="page-header">
         <h1 className="header-title">勉強タスク管理</h1>
       </header>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm-grid-cols-2">
         {sortedTasks.map((task) => (
           <Link key={task.id} to={`/task/${task.id}`}>
             <TaskCard task={task} />

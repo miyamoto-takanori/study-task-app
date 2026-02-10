@@ -1,29 +1,102 @@
-@import "tailwindcss";
+/* src/App.css */
 
+/* レイアウト全体 */
 .app-layout {
-  @apply min-h-screen bg-gray-50 pb-20;
+  min-height: 100vh;
+  background-color: #f9fafb; /* bg-gray-50 */
+  padding-bottom: 5rem; /* pb-20 (ナビゲーションバーの高さ分) */
 }
 
+/* 下部ナビゲーション */
 .bottom-nav {
-  @apply fixed bottom-0 left-0 right-0 border-t bg-white p-3 flex justify-around text-gray-400 z-50;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4rem; /* 約64px */
+  background-color: #ffffff;
+  border-top: 1px solid #e5e7eb; /* border-t */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.75rem; /* p-3 */
+  color: #9ca3af; /* text-gray-400 */
+  z-index: 50;
 }
 
+/* ナビゲーションアイテム */
 .nav-item {
-  @apply flex flex-col items-center transition-colors;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s;
 }
 
 .nav-item--active {
-  @apply text-blue-500;
+  color: #3b82f6; /* text-blue-500 */
 }
 
+.text-xs {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* ページコンテナ */
 .page-container {
-  @apply p-4 animate-in fade-in duration-500;
+  padding: 1rem; /* p-4 */
+  max-width: 800px;
+  margin: 0 auto;
+  /* Tailwindの標準アニメーションを再現 */
+  animation: fadeIn 0.5s ease-out;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ページヘッダー */
 .page-header {
-  @apply mb-6 flex items-center justify-between;
+  margin-bottom: 1.5rem; /* mb-6 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .header-title {
-  @apply text-xl font-bold text-gray-800;
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 700;
+  color: #1f2937; /* text-gray-800 */
+  margin: 0;
+}
+
+/* グリッドレイアウト (Tailwindのユーティリティを補完) */
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+/* レスポンシブ設定 (sm:grid-cols-2) */
+@media (min-width: 640px) {
+  .sm-grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ユーティリティ */
+.text-center {
+  text-align: center;
+}
+
+.text-gray-400 {
+  color: #9ca3af;
 }

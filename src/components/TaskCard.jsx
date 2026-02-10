@@ -9,7 +9,7 @@ export function TaskCard({ task }) {
   return (
     <div 
       className={clsx("task-card", task.isCompleted ? "task-card--completed" : "task-card--active")}
-      style={{ '--theme-color': themeColor }} // ここで色をCSSに渡す
+      style={{ '--theme-color': themeColor }}
     >
       {task.isCompleted && (
         <div className="stamp-container">

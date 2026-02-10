@@ -1,1 +1,15 @@
-@import "tailwindcss";
+/* src/index.css */
+:root {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f9fafb; /* 全体の背景色をApp.cssと合わせる */
+}
+
+* {
+  box-sizing: border-box;
+}

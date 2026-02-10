@@ -1,63 +1,155 @@
-@import "tailwindcss";
+/* src/components/TaskDetail.css */
 
-.detail-header {
-  border-bottom-color: color-mix(in srgb, var(--theme-color), transparent 70%);
-  @apply sticky top-0 z-40 bg-white/80 backdrop-blur-md p-4 flex items-center gap-4 border-b;
+/* ページ全体のコンテナ */
+.detail-page {
+  min-height: 100vh;
+  background-color: #f9fafb;
 }
 
+/* ヘッダー部分（固定表示） */
+.detail-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  /* 下線をテーマカラーにする場合 */
+  border-bottom-color: var(--theme-color);
+}
+
+/* 戻るボタン */
 .back-button {
   color: var(--theme-color);
-  @apply p-1 active:bg-gray-100 rounded-full transition-colors;
+  padding: 0.25rem;
+  border-radius: 9999px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
+.back-button:active {
+  background-color: #f3f4f6;
+}
+
+/* タイトル */
 .detail-title {
-  @apply text-lg font-bold truncate;
+  font-size: 1.125rem; /* 18px */
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+/* 進捗セクション */
 .detail-progress-section {
-  @apply p-4 bg-white border-b;
+  padding: 1.5rem 1rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .progress-label {
   color: var(--theme-color);
-  @apply flex justify-between text-sm mb-2 font-bold;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
 }
 
 .progress-track {
-  @apply h-2 w-full rounded-full bg-gray-100 overflow-hidden;
+  height: 0.5rem; /* 8px */
+  width: 100%;
+  border-radius: 9999px;
+  background-color: #f3f4f6;
+  overflow: hidden;
 }
 
 .progress-fill {
   background-color: var(--theme-color);
-  @apply h-full transition-all duration-500;
+  height: 100%;
+  transition: width 0.5s ease-in-out;
 }
 
+/* アイテムリスト（Todoリスト） */
 .item-list {
-  @apply divide-y divide-gray-100;
+  background-color: #ffffff;
 }
 
+/* 各行の設定 */
 .item-row {
-  @apply flex items-center gap-4 p-4 bg-white active:bg-gray-50 transition-colors cursor-pointer;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  transition: background-color 0.2s;
+  cursor: pointer;
 }
 
+.item-row:active {
+  background-color: #f9fafb;
+}
+
+/* 境界線（最初の要素以外に上線を引く） */
+.item-row + .item-row {
+  border-top: 1px solid #f3f4f6;
+}
+
+/* チェックボックスの外枠 */
 .check-box {
-  @apply w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all shrink-0 border-gray-300;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.375rem;
+  border: 2px solid #d1d5db; /* border-gray-300 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  background-color: #ffffff;
 }
 
+/* チェックボックス（アクティブ状態） */
 .check-box--active {
   background-color: var(--theme-color);
   border-color: var(--theme-color);
-  @apply shadow-sm;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
+/* アイコンの色指定（!importantで上書き） */
+.check-box--active .text-white {
+  color: #ffffff !important;
+}
+
+/* テキストのスタイル */
 .item-text {
-  @apply text-base transition-all text-gray-700;
+  font-size: 1rem;
+  color: #374151; /* text-gray-700 */
+  transition: all 0.2s;
 }
 
+/* テキスト（完了状態：打ち消し線） */
 .item-text--done {
-  @apply text-gray-400 line-through;
+  color: #9ca3af; /* text-gray-400 */
+  text-decoration: line-through;
 }
 
+/* 読み込み中・エラー状態 */
 .loading-state {
-  @apply p-4 text-center text-gray-500;
+  padding: 3rem;
+  text-align: center;
+  color: #6b7280;
+  font-weight: 500;
 }
