@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, seedData } from './db';
-import { Clock, BarChart3 } from 'lucide-react';
 import { TaskCard } from './components/TaskCard';
 import { TaskDetail } from './components/TaskDetail';
-import { LayoutDashboard, CalendarRange } from 'lucide-react';
+import { AddTask } from './components/AddTask';
+import { LayoutDashboard, CalendarRange, Plus } from 'lucide-react';
 import './App.css';
 
 function Layout({ children }) {
@@ -55,7 +55,6 @@ function Layout({ children }) {
         <h1 className="header-title">勉強タスク管理</h1>
       </header>
 
-      {/* mainを画面いっぱいに広げる */}
       <main 
         onScroll={handleScroll} 
         style={{ 
@@ -71,6 +70,10 @@ function Layout({ children }) {
         </div>
       </main>
       <nav className="bottom-nav">
+        <Link to="/add" className={`nav-item ${location.pathname === '/add' ? 'nav-item--active' : ''}`}>
+          <Plus size={24} strokeWidth={2.5} />
+          <span className="text-xs" style={{ fontWeight: 600 }}>追加</span>
+        </Link>
         <Link to="/" className={`nav-item ${location.pathname === '/' ? 'nav-item--active' : ''}`}>
           <LayoutDashboard size={24} strokeWidth={2.5} />
           <span className="text-xs" style={{ fontWeight: 600 }}>ダッシュボード</span>
@@ -111,6 +114,7 @@ export default function App() {
     <Router>
       <Layout>
         <Routes>
+          <Route path="/add" element={<AddTask />} />
           <Route path="/" element={<TaskList />} />
           <Route path="/task/:id" element={<TaskDetail />} />
           <Route path="/stats" element={<div className="page-container text-center text-gray-400">統計画面（準備中）</div>} />
