@@ -58,6 +58,7 @@
   background: white;
   border-radius: 1.25rem;
   padding: 1rem 1.25rem; /* 上下のパディングを 1.25rem から 1rem に調整 */
+  margin-top: 1rem;
   margin-bottom: 1rem;   /* 下の余白を 1.5rem から 1rem に */
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
