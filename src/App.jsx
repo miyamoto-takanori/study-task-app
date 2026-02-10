@@ -5,6 +5,7 @@ import { db, seedData } from './db';
 import { Clock, BarChart3 } from 'lucide-react';
 import { TaskCard } from './components/TaskCard';
 import { TaskDetail } from './components/TaskDetail';
+import { LayoutDashboard, CalendarRange } from 'lucide-react';
 import './App.css';
 
 function Layout({ children }) {
@@ -14,12 +15,12 @@ function Layout({ children }) {
       {children}
       <nav className="bottom-nav">
         <Link to="/" className={`nav-item ${location.pathname === '/' ? 'nav-item--active' : ''}`}>
-          <Clock size={20} />
-          <span className="text-xs">タスク</span>
+          <LayoutDashboard size={24} strokeWidth={2.5} />
+          <span className="text-xs" style={{ fontWeight: 600 }}>ダッシュボード</span>
         </Link>
         <Link to="/stats" className={`nav-item ${location.pathname === '/stats' ? 'nav-item--active' : ''}`}>
-          <BarChart3 size={20} />
-          <span className="text-xs">統計</span>
+          <CalendarRange size={24} strokeWidth={2.5} />
+          <span className="text-xs" style={{ fontWeight: 600 }}>学習記録</span>
         </Link>
       </nav>
     </div>
@@ -38,7 +39,10 @@ function TaskList() {
   return (
     <div className="page-container">
       <header className="page-header">
-        <h1 className="header-title">勉強タスク管理</h1>
+        <div>
+          <span className="header-badge">Study Dashboard</span>
+          <h1 className="header-title">勉強タスク管理</h1>
+        </div>
       </header>
       <div className="grid grid-cols-1 gap-4 sm-grid-cols-2">
         {sortedTasks.map((task) => (

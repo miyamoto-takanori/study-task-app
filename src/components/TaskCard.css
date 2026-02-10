@@ -60,6 +60,18 @@
   font-weight: 500;
 }
 
+.deadline-text--urgent {
+  color: #ef4444 !important; /* 赤色 */
+  font-weight: 800 !important;
+  animation: pulse 2s infinite; /* 軽く点滅させて注意を引く */
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
 /* タイトル */
 .card-title {
   font-size: 1.125rem; /* 18px */
