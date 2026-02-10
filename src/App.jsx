@@ -32,7 +32,10 @@ function Layout({ children }) {
         <h1 className="header-title">勉強タスク管理</h1>
       </header>
       {/* children（TaskListなど）自体にヘッダーが含まれるため、mainをスクロール可能にする */}
-      <main style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch', overscrollBehaviorY: 'contain' }}>
+      <main 
+        onScroll={handleScroll} 
+        style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch', overscrollBehaviorY: 'contain' }}
+      >
         {children}
       </main>
       <nav className="bottom-nav">
