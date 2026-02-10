@@ -5,7 +5,7 @@ import { db, seedData } from './db';
 import { Clock, BarChart3 } from 'lucide-react';
 import { TaskCard } from './components/TaskCard';
 import { TaskDetail } from './components/TaskDetail';
-import './App.css';
+import './index.css';
 
 function Layout({ children }) {
   const location = useLocation();
