@@ -27,6 +27,7 @@
   align-items: center;
   z-index: 1000;
   padding: 0 1rem;
+  -webkit-touch-callout: none !important;
 }
 
 /* ナビゲーションアイテム */
@@ -38,6 +39,7 @@
   gap: 2px;
   color: #9ca3af;
   flex: 1;
+  -webkit-touch-callout: none;
 }
 
 .nav-item--active {
@@ -71,7 +73,7 @@
 
 /* ページヘッダー */
 .page-header {
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 100;
   /* すりガラス効果 */
