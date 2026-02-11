@@ -1,26 +1,24 @@
 import React, { useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+// useParams, useNavigate は使わないのでインポートを削除
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
 import { CheckCircle2, ChevronLeft } from 'lucide-react';
 import clsx from 'clsx';
 import './TaskDetail.css';
 
-export function TaskDetail() {
-  const { id } = useParams();
-  const navigate = useNavigate();
+// Props として taskId と onBack を受け取る
+export function TaskDetail({ taskId, onBack }) {
   
-  // カテゴリ情報も取得して色を反映
-  const task = useLiveQuery(() => db.tasks.get(Number(id)), [id]);
+  // URLのパラメータ (id) の代わりに props の taskId を使用
+  const task = useLiveQuery(() => db.tasks.get(Number(taskId)), [taskId]);
   const categories = useLiveQuery(() => db.categories.toArray());
   const category = categories?.find(c => c.id === task?.categoryId);
 
-  // ② チェック済みを下に落とすソートロジック
   const sortedItems = useMemo(() => {
     if (!task?.items) return [];
     return [...task.items].sort((a, b) => {
-      if (a.done === b.done) return a.id - b.id; // 同じ状態ならID順
-      return a.done ? 1 : -1; // 未完了が先、完了が後
+      if (a.done === b.done) return a.id - b.id;
+      return a.done ? 1 : -1;
     });
   }, [task]);
 
@@ -43,9 +41,9 @@ export function TaskDetail() {
 
   return (
     <div className="detail-page" style={{ '--theme-color': themeColor }}>
-      {/* ① 戻るボタンを含むヘッダー。App.jsxのヘッダーが隠れてもここは残るようにします */}
       <div className="detail-header-fixed">
-        <button onClick={() => navigate(-1)} className="back-button">
+        {/* navigate(-1) の代わりに props の onBack を実行 */}
+        <button onClick={onBack} className="back-button">
           <ChevronLeft size={28} strokeWidth={2.5} />
         </button>
         <div className="header-text-group">

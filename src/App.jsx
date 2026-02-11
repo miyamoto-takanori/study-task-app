@@ -1,17 +1,13 @@
 import React, { useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, seedData } from './db';
 import { TaskCard } from './components/TaskCard';
 import { TaskDetail } from './components/TaskDetail';
 import { AddTask } from './components/AddTask';
 import { LayoutDashboard, CalendarRange, Plus } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import './App.css';
 
-function Layout({ children }) {
-  const location = useLocation();
-  const navigate = useNavigate();
+function Layout({ children, activeTab, setActiveTab, isDetailPage, clearTask }) {
   const [headerOffset, setHeaderOffset] = React.useState(0);
   const [lastScrollY, setLastScrollY] = React.useState(0);
 
@@ -20,7 +16,6 @@ function Layout({ children }) {
     const scrollHeight = e.currentTarget.scrollHeight;
     const clientHeight = e.currentTarget.clientHeight;
 
-    // バウンド時のガード
     if (currentScrollY <= 0) {
       setHeaderOffset(0);
       setLastScrollY(0);
@@ -30,7 +25,6 @@ function Layout({ children }) {
 
     const diff = currentScrollY - lastScrollY;
     
-    // ヘッダーの高さ（約80px）に合わせて隠す量を調整
     setHeaderOffset((prev) => {
       const nextOffset = prev + diff;
       return Math.min(Math.max(nextOffset, 0), 90); 
@@ -39,12 +33,10 @@ function Layout({ children }) {
     setLastScrollY(currentScrollY);
   };
 
-  const isDetailPage = location.pathname.startsWith('/task/');
-
   const headerStyle = {
     transform: `translateY(-${isDetailPage ? 0 : headerOffset}px)`,
     opacity: isDetailPage ? 1 : 1 - (headerOffset / 90),
-    position: 'absolute', // 固定ではなく絶対配置に
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
@@ -54,12 +46,12 @@ function Layout({ children }) {
 
   return (
     <div className="app-layout" style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
-    {!isDetailPage && (
-      <header className="page-header" style={headerStyle}>
-        <span className="header-badge">Study Optimizer</span>
-        <h1 className="header-title">勉強タスク管理</h1>
-      </header>
-    )}
+      {!isDetailPage && (
+        <header className="page-header" style={headerStyle}>
+          <span className="header-badge">Study Optimizer</span>
+          <h1 className="header-title">勉強タスク管理</h1>
+        </header>
+      )}
 
       <main 
         onScroll={handleScroll} 
@@ -71,29 +63,29 @@ function Layout({ children }) {
           position: 'relative'
         }}
       >
-        {/* ヘッダーの初期高さ分だけ内側に余白を持たせる */}
         <div style={{ paddingTop: isDetailPage ? '0' : '85px' }}>
           {children}
         </div>
       </main>
+
       <nav className="bottom-nav">
         <div 
-          onClick={() => navigate('/add')} 
-          className={`nav-item ${location.pathname === '/add' ? 'nav-item--active' : ''}`}
+          onClick={() => { clearTask(); setActiveTab('add'); }} 
+          className={`nav-item ${activeTab === 'add' && !isDetailPage ? 'nav-item--active' : ''}`}
         >
           <Plus size={24} strokeWidth={2.5} />
           <span className="text-xs">追加</span>
         </div>
         <div 
-          onClick={() => navigate('/')} 
-          className={`nav-item ${location.pathname === '/' ? 'nav-item--active' : ''}`}
+          onClick={() => { clearTask(); setActiveTab('dashboard'); }} 
+          className={`nav-item ${activeTab === 'dashboard' && !isDetailPage ? 'nav-item--active' : ''}`}
         >
           <LayoutDashboard size={24} strokeWidth={2.5} />
           <span className="text-xs">ダッシュボード</span>
         </div>
         <div 
-          onClick={() => navigate('/stats')} 
-          className={`nav-item ${location.pathname === '/stats' ? 'nav-item--active' : ''}`}
+          onClick={() => { clearTask(); setActiveTab('stats'); }} 
+          className={`nav-item ${activeTab === 'stats' && !isDetailPage ? 'nav-item--active' : ''}`}
         >
           <CalendarRange size={24} strokeWidth={2.5} />
           <span className="text-xs">学習記録</span>
@@ -103,11 +95,13 @@ function Layout({ children }) {
   );
 }
 
-function TaskList() {
-  const navigate = useNavigate();
+function TaskList({ onSelectTask }) {
   const tasks = useLiveQuery(() => db.tasks.toArray());
   const categories = useLiveQuery(() => db.categories.toArray());
-  useEffect(() => { seedData(); }, []);
+  
+  useEffect(() => { 
+    seedData(); 
+  }, []);
 
   if (!tasks || !categories) return null;
   
@@ -124,7 +118,8 @@ function TaskList() {
           return (
             <div 
               key={task.id} 
-              onClick={() => navigate(`/task/${task.id}`)}
+              // 親から渡された関数を実行して taskId を渡す
+              onClick={() => onSelectTask(task.id)}
               className="clickable-card"
               style={{ cursor: 'pointer' }}
             >
@@ -138,16 +133,29 @@ function TaskList() {
 }
 
 export default function App() {
+  const [activeTab, setActiveTab] = React.useState('dashboard');
+  const [selectedTaskId, setSelectedTaskId] = React.useState(null);
+
+  // コンテンツの出し分けロジック
+  const renderContent = () => {
+    if (selectedTaskId) {
+      return <TaskDetail taskId={selectedTaskId} onBack={() => setSelectedTaskId(null)} />;
+    }
+    switch (activeTab) {
+      case 'add': return <AddTask onSave={() => setActiveTab('dashboard')} />;
+      case 'stats': return <div className="page-container text-center text-gray-400">統計画面（準備中）</div>;
+      default: return <TaskList onSelectTask={(id) => setSelectedTaskId(id)} />;
+    }
+  };
+
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/add" element={<AddTask />} />
-          <Route path="/" element={<TaskList />} />
-          <Route path="/task/:id" element={<TaskDetail />} />
-          <Route path="/stats" element={<div className="page-container text-center text-gray-400">統計画面（準備中）</div>} />
-        </Routes>
-      </Layout>
-    </Router>
+    <Layout 
+      activeTab={activeTab} 
+      setActiveTab={setActiveTab} 
+      isDetailPage={!!selectedTaskId}
+      clearTask={() => setSelectedTaskId(null)}
+    >
+      {renderContent()}
+    </Layout>
   );
 }

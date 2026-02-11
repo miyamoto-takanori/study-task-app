@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
 import { db } from '../db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useNavigate } from 'react-router-dom';
 import './AddTask.css';
 
-export function AddTask() {
-  const navigate = useNavigate();
+// Propsとして onSave を受け取る
+export function AddTask({ onSave }) {
   const categories = useLiveQuery(() => db.categories.toArray());
   
-  const [mode, setMode] = useState('auto'); // 'auto' or 'manual'
+  const [mode, setMode] = useState('auto');
   const [formData, setFormData] = useState({
     categoryId: '',
     title: '',
     subtitle: '',
     deadline: new Date().toISOString().split('T')[0],
     priority: 3,
-    // 一括生成用
     itemPrefix: '第',
     itemSuffix: '回',
     startNum: 1,
     endNum: 10,
-    // 手動登録用
     manualItems: ['']
   });
 
@@ -39,7 +36,6 @@ export function AddTask() {
     
     const catId = parseInt(formData.categoryId);
 
-    // 1. カテゴリのバリデーション
     if (!catId) {
         alert("カテゴリを選択してください");
         return;
@@ -52,7 +48,6 @@ export function AddTask() {
         return;
     }
 
-    // 3. アイテム生成ロジック
     let finalItems = [];
     if (mode === 'auto') {
         const count = formData.endNum - formData.startNum + 1;
@@ -67,9 +62,6 @@ export function AddTask() {
         .map((label, i) => ({ id: i + 1, label, done: false }));
     }
 
-    // 4. データベースへ登録
-    // categoryIdだけでなく、その時の名前と色も一緒に保存（非正規化）することで、
-    // ダッシュボード等での表示を高速化・確実にします。
     await db.tasks.add({
         categoryId: selectedCategory.id,
         categoryName: selectedCategory.name,
@@ -84,12 +76,14 @@ export function AddTask() {
         isCompleted: false
     });
     
-    navigate('/');
-    };
+    // navigate('/') の代わりに、親から渡された関数を実行して画面を戻す
+    if (onSave) onSave();
+  };
 
   return (
     <div className="page-container">
       <form onSubmit={handleSubmit} className="add-task-container">
+        {/* ... (中身の JSX は以前と全く同じで大丈夫です) ... */}
         <h2 className="header-title">タスク作成</h2>
 
         <div className="form-section">
