@@ -99,32 +99,29 @@ function Layout({ children, activeTab, setActiveTab, isDetailPage, clearTask }) 
 function TaskList({ onSelectTask }) {
   const tasks = useLiveQuery(() => db.tasks.toArray());
   const categories = useLiveQuery(() => db.categories.toArray());
+  
+  // 現在メニューを表示しているタスクID
+  const [activeCardId, setActiveCardId] = React.useState(null);
+  // 編集モーダルに渡すタスク
   const [editingTask, setEditingTask] = React.useState(null);
   const timerRef = React.useRef(null);
 
-  // 長押し（ロングプレス）検知ロジック
   const handleTouchStart = (task) => {
-    // 0.6秒後に編集モーダルを表示
+    // すでにメニューが開いている場合は何もしない
+    if (activeCardId) return;
+
     timerRef.current = setTimeout(() => {
-      setEditingTask(task);
-      // スマホなら軽くバイブレーションさせて検知を知らせる
+      setActiveCardId(task.id); // カードをメニュー状態にする
       if (window.navigator.vibrate) window.navigator.vibrate(50);
     }, 600);
   };
 
   const handleTouchEnd = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
+    if (timerRef.current) clearTimeout(timerRef.current);
   };
 
-  // スクロール（指を動かした）時は長押しをキャンセル
   const handleTouchMove = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
+    if (timerRef.current) clearTimeout(timerRef.current);
   };
   
   useEffect(() => { 
@@ -138,36 +135,60 @@ function TaskList({ onSelectTask }) {
   );
 
   return (
-    <div className="page-container">
+    <div className="page-container" onClick={() => setActiveCardId(null)}>
       <div className="grid grid-cols-1 gap-4 sm-grid-cols-2">
         {sortedTasks.map((task) => {
           const category = categories.find(c => c.id === task.categoryId);
+          const isMenuOpen = activeCardId === task.id;
           
           return (
             <div 
               key={task.id} 
-              onClick={() => onSelectTask(task.id)}
+              className="task-card-wrapper"
+              style={{ position: 'relative' }}
               onTouchStart={() => handleTouchStart(task)}
               onTouchEnd={handleTouchEnd}
               onTouchMove={handleTouchMove}
-              className="clickable-card"
-              style={{ 
-                cursor: 'pointer',
-                // Safari での標準コンテキストメニュー（コピー等）を抑制
-                WebkitTouchCallout: 'none',
-                WebkitUserSelect: 'none'
-              }}
             >
-              <TaskCard task={task} category={category} />
+              {/* 通常のカード表示 */}
+              <div 
+                onClick={() => !isMenuOpen && onSelectTask(task.id)}
+                className="clickable-card"
+                style={{ 
+                  opacity: isMenuOpen ? 0.3 : 1, // メニュー時は薄くする
+                  transition: 'opacity 0.2s ease',
+                  WebkitTouchCallout: 'none'
+                }}
+              >
+                <TaskCard task={task} category={category} />
+              </div>
+
+              {/* カードの上に重なる編集・削除メニュー */}
+              {isMenuOpen && (
+                <div className="card-quick-menu">
+                  <div 
+                    className="menu-item edit" 
+                    onClick={(e) => { e.stopPropagation(); setEditingTask(task); setActiveCardId(null); }}
+                  >
+                    編集
+                  </div>
+                  <div 
+                    className="menu-item delete" 
+                    onClick={(e) => { e.stopPropagation(); /* 削除モーダルへ */ setEditingTask({...task, forceDelete: true}); setActiveCardId(null); }}
+                  >
+                    削除
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}
       </div>
 
-      {/* 編集モーダル */}
       {editingTask && (
         <EditTaskModal 
           task={editingTask} 
+          initialDeleteMode={editingTask.forceDelete}
           onClose={() => setEditingTask(null)} 
         />
       )}

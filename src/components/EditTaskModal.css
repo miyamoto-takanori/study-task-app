@@ -1,42 +1,91 @@
+/* モーダル全体の背景（オーバーレイ） */
 .modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
+  /* 背景をぼかす（iOS風） */
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
-  align-items: flex-end; /* 下から出るスタイル */
+  align-items: flex-end; /* 下側に配置 */
   justify-content: center;
-  z-index: 1000;
-  padding: 10px;
+  /* タブバー(z-index: 100前後)より確実に上に表示 */
+  z-index: 2000; 
+  padding: 16px;
+  /* タブバーの高さを考慮した余白（ここで被りを防ぐ） */
+  padding-bottom: calc(90px + env(safe-area-inset-bottom)); 
 }
 
+/* モーダル本体のカード */
 .modal-content {
   background: white;
   width: 100%;
   max-width: 500px;
-  border-radius: 24px 24px 16px 16px;
+  /* 四隅を丸くして「浮いている」感を出す */
+  border-radius: 28px; 
   padding: 24px;
-  animation: slideUp 0.3s ease-out;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  /* 下からふわっと出るアニメーション */
+  animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+@keyframes modalSlideUp {
+  from { 
+    transform: translateY(30px); 
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1;
+  }
 }
 
+/* ヘッダー部分 */
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.close-btn {
+  background: #f3f4f6;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* フォーム内部（スマホのキーボード表示時対策） */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* 入力項目が多い場合に内部スクロール可能に */
+  max-height: 50vh; 
+  overflow-y: auto;
+  padding-bottom: 8px;
+}
+
+/* アクションボタンエリア */
 .modal-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 32px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
 }
 
 .right-actions {
@@ -44,9 +93,10 @@
   gap: 12px;
 }
 
+/* 各種ボタンのスタイル */
 .delete-trigger-btn {
-  color: #ff4d4d;
-  background: #fff0f0;
+  color: #ef4444;
+  background: #fef2f2;
   border: none;
   padding: 10px 16px;
   border-radius: 12px;
@@ -54,6 +104,7 @@
   align-items: center;
   gap: 6px;
   font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .save-btn {
@@ -63,6 +114,7 @@
   padding: 10px 24px;
   border-radius: 12px;
   font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .cancel-btn {
@@ -71,18 +123,38 @@
   padding: 10px 16px;
   border-radius: 12px;
   color: #666;
+  font-weight: 600;
 }
 
+/* 削除確認画面 */
 .delete-confirm-view {
   text-align: center;
-  padding: 20px 0;
+  padding: 16px 0;
+}
+
+.warning-icon {
+  color: #ef4444;
+  margin-bottom: 16px;
+}
+
+.delete-confirm-view p {
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 24px;
 }
 
 .delete-exec-btn {
-  background: #ff4d4d;
+  background: #ef4444;
   color: white;
   border: none;
-  padding: 10px 24px;
+  padding: 12px 24px;
   border-radius: 12px;
   font-weight: 600;
+  font-size: 1rem;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
 }

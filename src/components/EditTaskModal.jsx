@@ -4,9 +4,9 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { Trash2, X } from 'lucide-react';
 import './EditTaskModal.css';
 
-export function EditTaskModal({ task, onClose }) {
+export function EditTaskModal({ task, onClose, initialDeleteMode = false }) {
   const categories = useLiveQuery(() => db.categories.toArray());
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(initialDeleteMode);
   const [formData, setFormData] = useState({
     categoryId: task.categoryId,
     title: task.title,

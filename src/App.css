@@ -187,3 +187,44 @@ textarea {
   opacity: 0.6;
   transition: opacity 0.1s;
 }
+
+.task-card-wrapper {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.card-quick-menu {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.menu-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: white;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.menu-item.edit {
+  background: rgba(59, 130, 246, 0.7); /* 青色の半透明 */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.menu-item.delete {
+  background: rgba(239, 68, 68, 0.7); /* 赤色の半透明 */
+}
