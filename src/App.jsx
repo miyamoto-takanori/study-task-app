@@ -117,7 +117,7 @@ function TaskList() {
 
   return (
     <div className="page-container">
-      <div className="grid">
+      <div className="grid grid-cols-1 gap-4 sm-grid-cols-2">
         {sortedTasks.map((task) => {
           const category = categories.find(c => c.id === task.categoryId);
           
