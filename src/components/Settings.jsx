@@ -54,7 +54,6 @@ export function Settings() {
       <section className="settings-section">
         <h2 className="section-title">カテゴリ管理</h2>
         
-        {/* 新規追加フォーム: 縦並び構成 */}
         <form className="category-add-card" onSubmit={handleAdd}>
           <div className="vertical-form">
             <div className="form-field">
@@ -137,6 +136,8 @@ export function Settings() {
           ))}
         </div>
       </section>
+      {/* タブバー分の余白を確保するためのスペーサー */}
+      <div className="settings-bottom-spacer" />
     </div>
   );
 }

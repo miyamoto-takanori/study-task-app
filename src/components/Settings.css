@@ -220,3 +220,8 @@
   border-radius: 10px;
   font-weight: 600;
 }
+
+/* 下部の余白 */
+.settings-bottom-spacer {
+  height: 100px; /* タブバー(約80px)を避けるための十分な余白 */
+}
