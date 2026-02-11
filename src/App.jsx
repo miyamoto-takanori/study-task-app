@@ -6,6 +6,7 @@ import { TaskDetail } from './components/TaskDetail';
 import { AddTask } from './components/AddTask';
 import { EditTaskModal } from './components/EditTaskModal';
 import { Settings } from './components/Settings';
+import { Stats } from './components/Stats';
 import { LayoutDashboard, CalendarRange, Plus, Settings as SettingsIcon } from 'lucide-react';
 import './App.css';
 
@@ -211,7 +212,7 @@ export default function App() {
     }
     switch (activeTab) {
       case 'add': return <AddTask onSave={() => setActiveTab('dashboard')} />;
-      case 'stats': return <div className="page-container text-center text-gray-400">統計画面（準備中）</div>;
+      case 'stats': return <Stats />;
       case 'settings': return <Settings />;
       default: return <TaskList onSelectTask={(id) => setSelectedTaskId(id)} />;
     }
