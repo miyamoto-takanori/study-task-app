@@ -1,0 +1,88 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: flex-end; /* 下から出るスタイル */
+  justify-content: center;
+  z-index: 1000;
+  padding: 10px;
+}
+
+.modal-content {
+  background: white;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 24px 24px 16px 16px;
+  padding: 24px;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.right-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.delete-trigger-btn {
+  color: #ff4d4d;
+  background: #fff0f0;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.save-btn {
+  background: var(--theme-color, #3b82f6);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.cancel-btn {
+  background: #f3f4f6;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  color: #666;
+}
+
+.delete-confirm-view {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.delete-exec-btn {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+}

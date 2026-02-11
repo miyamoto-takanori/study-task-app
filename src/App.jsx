@@ -4,6 +4,7 @@ import { db, seedData } from './db';
 import { TaskCard } from './components/TaskCard';
 import { TaskDetail } from './components/TaskDetail';
 import { AddTask } from './components/AddTask';
+import { EditTaskModal } from './components/EditTaskModal';
 import { LayoutDashboard, CalendarRange, Plus } from 'lucide-react';
 import './App.css';
 
@@ -98,6 +99,33 @@ function Layout({ children, activeTab, setActiveTab, isDetailPage, clearTask }) 
 function TaskList({ onSelectTask }) {
   const tasks = useLiveQuery(() => db.tasks.toArray());
   const categories = useLiveQuery(() => db.categories.toArray());
+  const [editingTask, setEditingTask] = React.useState(null);
+  const timerRef = React.useRef(null);
+
+  // 長押し（ロングプレス）検知ロジック
+  const handleTouchStart = (task) => {
+    // 0.6秒後に編集モーダルを表示
+    timerRef.current = setTimeout(() => {
+      setEditingTask(task);
+      // スマホなら軽くバイブレーションさせて検知を知らせる
+      if (window.navigator.vibrate) window.navigator.vibrate(50);
+    }, 600);
+  };
+
+  const handleTouchEnd = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  // スクロール（指を動かした）時は長押しをキャンセル
+  const handleTouchMove = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  };
   
   useEffect(() => { 
     seedData(); 
@@ -118,16 +146,31 @@ function TaskList({ onSelectTask }) {
           return (
             <div 
               key={task.id} 
-              // 親から渡された関数を実行して taskId を渡す
               onClick={() => onSelectTask(task.id)}
+              onTouchStart={() => handleTouchStart(task)}
+              onTouchEnd={handleTouchEnd}
+              onTouchMove={handleTouchMove}
               className="clickable-card"
-              style={{ cursor: 'pointer' }}
+              style={{ 
+                cursor: 'pointer',
+                // Safari での標準コンテキストメニュー（コピー等）を抑制
+                WebkitTouchCallout: 'none',
+                WebkitUserSelect: 'none'
+              }}
             >
               <TaskCard task={task} category={category} />
             </div>
           );
         })}
       </div>
+
+      {/* 編集モーダル */}
+      {editingTask && (
+        <EditTaskModal 
+          task={editingTask} 
+          onClose={() => setEditingTask(null)} 
+        />
+      )}
     </div>
   );
 }
