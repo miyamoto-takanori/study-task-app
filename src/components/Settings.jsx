@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { db } from '../db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Plus, Trash2, Save, X, ChevronDown } from 'lucide-react'; // ChevronDownを追加
+import { Plus, Trash2, Save, X, ChevronDown, Palette, Type } from 'lucide-react';
 import './Settings.css';
 
 const PRESET_COLORS = [
@@ -44,7 +44,7 @@ export function Settings() {
   };
 
   const handleDelete = async (id) => {
-    if (confirm('このカテゴリを削除しますか？紐付いているタスクの表示に影響が出る場合があります。')) {
+    if (confirm('このカテゴリを削除しますか？')) {
       await db.categories.delete(id);
     }
   };
@@ -54,69 +54,84 @@ export function Settings() {
       <section className="settings-section">
         <h2 className="section-title">カテゴリ管理</h2>
         
-        {/* 新規追加フォーム */}
-        <form className="category-add-form" onSubmit={handleAdd}>
-          <div className="input-group">
-            <input 
-              type="text" 
-              className="settings-input" 
-              placeholder="カテゴリ名"
-              value={newCategoryName}
-              onChange={(e) => setNewCategoryName(e.target.value)}
-              required
-            />
-            <div className="color-select-wrapper">
-              <div className="color-dot" style={{ backgroundColor: newCategoryColor }} />
-              <select 
-                className="settings-select"
-                value={newCategoryColor}
-                onChange={(e) => setNewCategoryColor(e.target.value)}
-              >
-                {PRESET_COLORS.map(c => <option key={c.value} value={c.value}>{c.name}</option>)}
-              </select>
-              <ChevronDown size={16} className="select-arrow" />
+        {/* 新規追加フォーム: 縦並び構成 */}
+        <form className="category-add-card" onSubmit={handleAdd}>
+          <div className="vertical-form">
+            <div className="form-field">
+              <label className="field-label"><Type size={14} /> カテゴリ名</label>
+              <input 
+                type="text" 
+                className="settings-input-large" 
+                placeholder="例: 物理、世界史など"
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                required
+              />
             </div>
-            <button type="submit" className="add-btn-circle"><Plus size={20} /></button>
+            <div className="form-field">
+              <label className="field-label"><Palette size={14} /> 表示カラー</label>
+              <div className="color-select-wrapper-large">
+                <div className="color-dot-large" style={{ backgroundColor: newCategoryColor }} />
+                <select 
+                  className="settings-select-large"
+                  value={newCategoryColor}
+                  onChange={(e) => setNewCategoryColor(e.target.value)}
+                >
+                  {PRESET_COLORS.map(c => <option key={c.value} value={c.value}>{c.name}</option>)}
+                </select>
+                <ChevronDown size={20} className="select-arrow-large" />
+              </div>
+            </div>
+            <button type="submit" className="add-submit-btn">
+              <Plus size={20} /> カテゴリを追加
+            </button>
           </div>
         </form>
 
-        {/* カテゴリ一覧 */}
         <div className="category-list">
           {categories?.map(cat => (
-            <div key={cat.id} className="category-item">
+            <div key={cat.id} className={`category-item-wrapper ${editingId === cat.id ? 'is-editing' : ''}`}>
               {editingId === cat.id ? (
-                <div className="input-group">
-                  <input 
-                    type="text" 
-                    className="settings-input"
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                  />
-                  <div className="color-select-wrapper">
-                    <div className="color-dot" style={{ backgroundColor: editColor }} />
-                    <select 
-                      className="settings-select"
-                      value={editColor}
-                      onChange={(e) => setEditColor(e.target.value)}
-                    >
-                      {PRESET_COLORS.map(c => <option key={c.value} value={c.value}>{c.name}</option>)}
-                    </select>
-                    <ChevronDown size={16} className="select-arrow" />
+                <div className="edit-panel">
+                  <div className="vertical-form">
+                    <input 
+                      type="text" 
+                      className="settings-input-large"
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                    />
+                    <div className="color-select-wrapper-large">
+                      <div className="color-dot-large" style={{ backgroundColor: editColor }} />
+                      <select 
+                        className="settings-select-large"
+                        value={editColor}
+                        onChange={(e) => setEditColor(e.target.value)}
+                      >
+                        {PRESET_COLORS.map(c => <option key={c.value} value={c.value}>{c.name}</option>)}
+                      </select>
+                      <ChevronDown size={20} className="select-arrow-large" />
+                    </div>
+                    <div className="edit-actions-row">
+                      <button onClick={() => setEditingId(null)} className="edit-cancel-btn">
+                        キャンセル
+                      </button>
+                      <button onClick={() => handleUpdate(cat.id)} className="edit-save-btn">
+                        <Save size={18} /> 保存
+                      </button>
+                    </div>
                   </div>
-                  <button onClick={() => handleUpdate(cat.id)} className="icon-btn save"><Save size={18} /></button>
-                  <button onClick={() => setEditingId(null)} className="icon-btn cancel"><X size={18} /></button>
                 </div>
               ) : (
-                <>
-                  <div className="category-info">
-                    <div className="color-dot" style={{ backgroundColor: cat.color }} />
-                    <span className="category-name">{cat.name}</span>
+                <div className="category-row">
+                  <div className="category-main-info">
+                    <div className="color-dot-fixed" style={{ backgroundColor: cat.color }} />
+                    <span className="category-name-text">{cat.name}</span>
                   </div>
-                  <div className="item-actions">
-                    <button onClick={() => startEdit(cat)} className="edit-text-btn">編集</button>
-                    <button onClick={() => handleDelete(cat.id)} className="delete-icon-btn"><Trash2 size={18} /></button>
+                  <div className="category-row-btns">
+                    <button onClick={() => startEdit(cat)} className="row-edit-btn">編集</button>
+                    <button onClick={() => handleDelete(cat.id)} className="row-delete-btn"><Trash2 size={18} /></button>
                   </div>
-                </>
+                </div>
               )}
             </div>
           ))}
