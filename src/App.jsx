@@ -133,11 +133,45 @@ function TaskList({ onSelectTask }) {
     if (timerRef.current) clearTimeout(timerRef.current);
   };
   
+  const sortedTasks = React.useMemo(() => {
+    if (!tasks || !categories) return [];
+
+    return [...tasks].sort((a, b) => {
+      // 0. まず完了済みのタスクを後ろに（これは今の挙動を維持）
+      if (a.isCompleted !== b.isCompleted) {
+        return a.isCompleted ? 1 : -1;
+      }
+
+      // 1. 期限が早い順 (期限未設定は後ろ)
+      if (a.deadline !== b.deadline) {
+        if (!a.deadline) return 1;
+        if (!b.deadline) return -1;
+        return new Date(a.deadline) - new Date(b.deadline);
+      }
+
+      // 2. 優先度が高い順 (数値が大きいほど高優先と想定)
+      if (a.priority !== b.priority) {
+        return (b.priority || 0) - (a.priority || 0);
+      }
+
+      // 3. カテゴリ名 昇順
+      const catA = categories.find(c => c.id === a.categoryId)?.name || "";
+      const catB = categories.find(c => c.id === b.categoryId)?.name || "";
+      if (catA !== catB) {
+        return catA.localeCompare(catB, 'ja');
+      }
+
+      // 4. タイトル 昇順
+      if (a.title !== b.title) {
+        return a.title.localeCompare(b.title, 'ja');
+      }
+
+      // 5. サブタイトル 昇順
+      return (a.subtitle || "").localeCompare((b.subtitle || ""), 'ja');
+    });
+  }, [tasks, categories]);
+
   if (!tasks || !categories) return null;
-  
-  const sortedTasks = [...tasks].sort((a, b) => 
-    (a.isCompleted === b.isCompleted) ? b.priority - a.priority : (a.isCompleted ? 1 : -1)
-  );
 
   return (
     <div className="page-container" onClick={() => setActiveCardId(null)}>
