@@ -174,3 +174,16 @@ textarea {
 .text-gray-400 {
   color: #9ca3af;
 }
+
+.clickable-card, .nav-item {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none;
+  /* リンクではないのでプレビューは出なくなります */
+}
+
+/* タップした瞬間に少し不透明度を下げる（フィードバック） */
+.clickable-card:active, .nav-item:active {
+  opacity: 0.6;
+  transition: opacity 0.1s;
+}

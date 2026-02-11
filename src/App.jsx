@@ -6,10 +6,12 @@ import { TaskCard } from './components/TaskCard';
 import { TaskDetail } from './components/TaskDetail';
 import { AddTask } from './components/AddTask';
 import { LayoutDashboard, CalendarRange, Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 
 function Layout({ children }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [headerOffset, setHeaderOffset] = React.useState(0);
   const [lastScrollY, setLastScrollY] = React.useState(0);
 
@@ -75,24 +77,34 @@ function Layout({ children }) {
         </div>
       </main>
       <nav className="bottom-nav">
-        <Link to="/add" className={`nav-item ${location.pathname === '/add' ? 'nav-item--active' : ''}`}>
+        <div 
+          onClick={() => navigate('/add')} 
+          className={`nav-item ${location.pathname === '/add' ? 'nav-item--active' : ''}`}
+        >
           <Plus size={24} strokeWidth={2.5} />
-          <span className="text-xs" style={{ fontWeight: 600 }}>追加</span>
-        </Link>
-        <Link to="/" className={`nav-item ${location.pathname === '/' ? 'nav-item--active' : ''}`}>
+          <span className="text-xs">追加</span>
+        </div>
+        <div 
+          onClick={() => navigate('/')} 
+          className={`nav-item ${location.pathname === '/' ? 'nav-item--active' : ''}`}
+        >
           <LayoutDashboard size={24} strokeWidth={2.5} />
-          <span className="text-xs" style={{ fontWeight: 600 }}>ダッシュボード</span>
-        </Link>
-        <Link to="/stats" className={`nav-item ${location.pathname === '/stats' ? 'nav-item--active' : ''}`}>
+          <span className="text-xs">ダッシュボード</span>
+        </div>
+        <div 
+          onClick={() => navigate('/stats')} 
+          className={`nav-item ${location.pathname === '/stats' ? 'nav-item--active' : ''}`}
+        >
           <CalendarRange size={24} strokeWidth={2.5} />
-          <span className="text-xs" style={{ fontWeight: 600 }}>学習記録</span>
-        </Link>
+          <span className="text-xs">学習記録</span>
+        </div>
       </nav>
     </div>
   );
 }
 
 function TaskList() {
+  const navigate = useNavigate();
   const tasks = useLiveQuery(() => db.tasks.toArray());
   const categories = useLiveQuery(() => db.categories.toArray());
   useEffect(() => { seedData(); }, []);
@@ -105,14 +117,19 @@ function TaskList() {
 
   return (
     <div className="page-container">
-      <div className="grid grid-cols-1 gap-4 sm-grid-cols-2">
+      <div className="grid">
         {sortedTasks.map((task) => {
           const category = categories.find(c => c.id === task.categoryId);
           
           return (
-          <Link key={task.id} to={`/task/${task.id}`}>
-            <TaskCard task={task} category={category} />
-          </Link>
+            <div 
+              key={task.id} 
+              onClick={() => navigate(`/task/${task.id}`)}
+              className="clickable-card"
+              style={{ cursor: 'pointer' }}
+            >
+              <TaskCard task={task} category={category} />
+            </div>
           );
         })}
       </div>
