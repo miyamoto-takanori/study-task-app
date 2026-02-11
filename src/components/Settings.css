@@ -1,5 +1,5 @@
 .settings-container {
-  padding: 16px;
+  padding: 8px 16px; /* 上の余白をさらに詰めました */
   max-width: 600px;
   margin: 0 auto;
 }
@@ -7,92 +7,155 @@
 .settings-section {
   background: white;
   border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .section-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 20px;
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 16px;
   color: #1a1a1a;
+  letter-spacing: -0.02em;
+}
+
+/* 入力・セレクトを横並びにするグループ */
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
 }
 
 .category-add-form {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* 共通の入力スタイル */
+.settings-input, .settings-select {
+  height: 42px;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.95rem;
+  padding: 0 12px;
+  color: #1e293b;
+  transition: all 0.2s;
+}
+
+.settings-input {
+  flex: 2; /* 名前の方を広く */
+  min-width: 0; /* 文字あふれ対策 */
+}
+
+.settings-input:focus, .settings-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: white;
+}
+
+/* セレクトボックスのラッパー */
+.color-select-wrapper {
+  flex: 1.2;
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 24px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f3f4f6;
 }
 
-.color-preview {
-  width: 24px;
-  height: 24px;
+.settings-select {
+  width: 100%;
+  appearance: none;
+  padding-left: 32px; /* ドットの分を空ける */
+  cursor: pointer;
+}
+
+.color-dot {
+  position: absolute;
+  left: 10px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  flex-shrink: 0;
-  border: 2px solid rgba(0,0,0,0.05);
+  z-index: 1;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.05);
 }
 
-.color-select {
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
-  font-size: 0.9rem;
+.select-arrow {
+  position: absolute;
+  right: 10px;
+  color: #94a3b8;
+  pointer-events: none;
 }
 
-.add-btn {
-  background: #3b82f6;
+.add-btn-circle {
+  width: 42px;
+  height: 42px;
+  background: #1a1a1a;
   color: white;
   border: none;
-  padding: 8px;
-  border-radius: 8px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.1s;
 }
 
+.add-btn-circle:active {
+  transform: scale(0.92);
+}
+
+/* 一覧部分 */
 .category-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .category-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px;
-  background: #f9fafb;
-  border-radius: 12px;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 14px;
+  min-height: 52px;
+}
+
+.category-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .category-name {
-  flex: 1;
-  font-weight: 500;
+  font-weight: 600;
+  color: #334155;
 }
 
 .item-actions {
   display: flex;
-  gap: 8px;
+  gap: 4px;
 }
 
 .edit-text-btn {
-  background: none;
-  border: none;
-  color: #3b82f6;
-  font-size: 0.85rem;
-  font-weight: 600;
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
 }
 
 .delete-icon-btn {
   background: none;
   border: none;
-  color: #ef4444;
-  padding: 4px;
+  color: #cbd5e1;
+  padding: 6px;
 }
 
-.icon-btn.save { color: #10b981; border: none; background: none; }
-.icon-btn.cancel { color: #6b7280; border: none; background: none; }
-.edit-input { flex: 1; }
+.icon-btn.save { color: #10b981; border: none; background: none; margin-left: 4px;}
+.icon-btn.cancel { color: #94a3b8; border: none; background: none; }
