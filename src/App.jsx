@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db, seedData } from './db';
+import { db } from './db';
 import { TaskCard } from './components/TaskCard';
 import { TaskDetail } from './components/TaskDetail';
 import { AddTask } from './components/AddTask';
@@ -124,10 +124,6 @@ function TaskList({ onSelectTask }) {
     if (timerRef.current) clearTimeout(timerRef.current);
   };
   
-  useEffect(() => { 
-    seedData(); 
-  }, []);
-
   if (!tasks || !categories) return null;
   
   const sortedTasks = [...tasks].sort((a, b) => 
