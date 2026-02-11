@@ -139,3 +139,71 @@
   color: #94a3b8;
   text-decoration: line-through;
 }
+
+/* ヘッダー右側のボタン */
+.edit-toggle-btn {
+  margin-left: auto;
+  background: #f1f5f9;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.edit-toggle-btn--active {
+  background: var(--theme-color);
+  color: white;
+}
+
+/* 編集モードの行スタイル */
+.item-row--editing {
+  gap: 0.75rem;
+}
+
+.item-click-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+/* 削除ボタン（赤丸マイナス） */
+.delete-btn {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: #ff4d4d;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.delete-btn--confirm {
+  transform: rotate(90deg);
+  background: #b91c1c; /* より濃い赤に */
+}
+
+/* 入力ボックス */
+.item-edit-input {
+  flex: 1;
+  border: none;
+  background: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.item-edit-input:focus {
+  outline: 2px solid var(--theme-color);
+  background: white;
+}
