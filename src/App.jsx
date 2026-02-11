@@ -5,7 +5,8 @@ import { TaskCard } from './components/TaskCard';
 import { TaskDetail } from './components/TaskDetail';
 import { AddTask } from './components/AddTask';
 import { EditTaskModal } from './components/EditTaskModal';
-import { LayoutDashboard, CalendarRange, Plus } from 'lucide-react';
+import { Settings } from './components/Settings';
+import { LayoutDashboard, CalendarRange, Plus, Settings as SettingsIcon } from 'lucide-react';
 import './App.css';
 
 function Layout({ children, activeTab, setActiveTab, isDetailPage, clearTask }) {
@@ -90,6 +91,13 @@ function Layout({ children, activeTab, setActiveTab, isDetailPage, clearTask }) 
         >
           <CalendarRange size={24} strokeWidth={2.5} />
           <span className="text-xs">学習記録</span>
+        </div>
+        <div 
+          onClick={() => { clearTask(); setActiveTab('settings'); }} 
+          className={`nav-item ${activeTab === 'settings' && !isDetailPage ? 'nav-item--active' : ''}`}
+        >
+          <SettingsIcon size={24} strokeWidth={2.5} />
+          <span className="text-xs">設定</span>
         </div>
       </nav>
     </div>
@@ -204,6 +212,7 @@ export default function App() {
     switch (activeTab) {
       case 'add': return <AddTask onSave={() => setActiveTab('dashboard')} />;
       case 'stats': return <div className="page-container text-center text-gray-400">統計画面（準備中）</div>;
+      case 'settings': return <Settings />;
       default: return <TaskList onSelectTask={(id) => setSelectedTaskId(id)} />;
     }
   };
