@@ -183,12 +183,11 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all 0.2s;
+  transition: background 0.2s;
 }
 
-.delete-btn--confirm {
-  transform: rotate(90deg);
-  background: #b91c1c; /* より濃い赤に */
+.delete-btn:active {
+  background: #b91c1c;
 }
 
 /* 入力ボックス */
@@ -206,4 +205,33 @@
 .item-edit-input:focus {
   outline: 2px solid var(--theme-color);
   background: white;
+}
+
+/* 追加行のスタイル */
+.item-row--add {
+  background: #fdfdfd;
+  border-top: 2px dashed #f1f5f9;
+}
+
+.add-icon-placeholder {
+  width: 1.6rem;
+  display: flex;
+  justify-content: center;
+  margin-left: 0.1rem;
+}
+
+.item-edit-input--new {
+  background: transparent;
+  font-style: italic;
+}
+
+.item-edit-input--new:focus {
+  font-style: normal;
+  background: white;
+}
+
+/* 編集中のチェックボックス相当エリアの調整 */
+.item-row--editing {
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
 }
