@@ -50,7 +50,7 @@ export function Settings() {
   };
 
   return (
-    <div className="settings-container">
+    <div className="page-container settings-container">
       <section className="settings-section">
         <h2 className="section-title">カテゴリ管理</h2>
         
